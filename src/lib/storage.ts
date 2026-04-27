@@ -1,27 +1,24 @@
 import { User, Session } from "@/types/auth";
 import { Habit } from "@/types/habit";
-
-const USERS_KEY = "habit-tracker-users";
-const SESSION_KEY = "habit-tracker-session";
-const HABITS_KEY = "habit-tracker-habits";
+import { STORAGE_KEYS } from "./constants";
 
 export function getUsers(): User[] {
   if (typeof window === "undefined") return [];
   try {
-    return JSON.parse(localStorage.getItem(USERS_KEY) ?? "[]");
+    return JSON.parse(localStorage.getItem(STORAGE_KEYS.USERS) ?? "[]");
   } catch {
     return [];
   }
 }
 
 export function saveUsers(users: User[]): void {
-  localStorage.setItem(USERS_KEY, JSON.stringify(users));
+  localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(users));
 }
 
 export function getSession(): Session | null {
   if (typeof window === "undefined") return null;
   try {
-    const raw = localStorage.getItem(SESSION_KEY);
+    const raw = localStorage.getItem(STORAGE_KEYS.SESSION);
     return raw ? JSON.parse(raw) : null;
   } catch {
     return null;
@@ -29,22 +26,22 @@ export function getSession(): Session | null {
 }
 
 export function saveSession(session: Session | null): void {
-  localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+  localStorage.setItem(STORAGE_KEYS.SESSION, JSON.stringify(session));
 }
 
 export function clearSession(): void {
-  localStorage.removeItem(SESSION_KEY);
+  localStorage.removeItem(STORAGE_KEYS.SESSION);
 }
 
 export function getHabits(): Habit[] {
   if (typeof window === "undefined") return [];
   try {
-    return JSON.parse(localStorage.getItem(HABITS_KEY) ?? "[]");
+    return JSON.parse(localStorage.getItem(STORAGE_KEYS.HABITS) ?? "[]");
   } catch {
     return [];
   }
 }
 
 export function saveHabits(habits: Habit[]): void {
-  localStorage.setItem(HABITS_KEY, JSON.stringify(habits));
+  localStorage.setItem(STORAGE_KEYS.HABITS, JSON.stringify(habits));
 }

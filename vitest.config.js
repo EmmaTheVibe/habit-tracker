@@ -11,12 +11,12 @@ export default defineConfig({
     include: ["tests/unit/**/*.test.ts", "tests/unit/**/*.test.tsx"],
     coverage: {
       provider: "v8",
-      include: ["lib/**"],
+      include: ["src/lib/**"],
       thresholds: { lines: 80 },
       reporter: ["text", "html", "lcov"],
     },
   },
   resolve: {
-    alias: { "@": resolve(__dirname, ".") },
+    alias: { "@": resolve(__dirname, "./src") },
   },
 });

@@ -8,6 +8,7 @@ import { getSession, getHabits, saveHabits } from "@/lib/storage";
 import { logOut } from "@/lib/auth";
 import HabitList from "@/components/habits/HabitList";
 import HabitForm from "@/components/habits/HabitForm";
+import ProtectedRoute from "@/components/shared/ProtectedRoute";
 
 type Modal = { type: "create" } | { type: "edit"; habit: Habit } | null;
 
@@ -15,24 +16,18 @@ function getTodayString() {
   return new Date().toISOString().split("T")[0];
 }
 
-function readSession(): Session | null {
-  return getSession();
-}
-
 function readHabits(userId: string): Habit[] {
   return getHabits().filter((h) => h.userId === userId);
 }
 
 export default function DashboardClient() {
-  const router = useRouter();
-  const session = readSession();
+  const session = getSession();
 
-  if (!session) {
-    router.replace("/login");
-    return null;
-  }
-
-  return <Dashboard session={session} />;
+  return (
+    <ProtectedRoute>
+      {session && <Dashboard session={session} />}
+    </ProtectedRoute>
+  );
 }
 
 function Dashboard({ session }: { session: Session }) {
