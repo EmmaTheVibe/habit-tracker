@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import ServiceWorkerRegistration from "@/components/shared/ServiceWorkerRegistration";
+import HillsBackground from "@/components/shared/HillsBackground";
 
 export const metadata: Metadata = {
   title: "Habit Tracker",
@@ -24,6 +25,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/icons/icon-192.png" />
       </head>
       <body className="bg-gray-50 text-gray-900 antialiased">
+        <HillsBackground />
         {children}
         <ServiceWorkerRegistration />
       </body>

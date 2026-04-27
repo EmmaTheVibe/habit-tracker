@@ -65,7 +65,7 @@ export default function HabitCard({
                 ? `Unmark ${habit.name} as complete`
                 : `Mark ${habit.name} as complete`
             }
-            className={`shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-lg border-2 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
+            className={`cursor-pointer shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-lg border-2 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
               isCompleted
                 ? "bg-green-500 border-green-500 text-white"
                 : "bg-white border-gray-300 text-transparent hover:border-green-400"
@@ -79,14 +79,14 @@ export default function HabitCard({
           <button
             data-testid={`habit-edit-${slug}`}
             onClick={() => onEdit(habit)}
-            className="flex-1 rounded-lg border border-gray-200 px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="cursor-pointer flex-1 rounded-lg border border-gray-200 px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
             Edit
           </button>
           <button
             data-testid={`habit-delete-${slug}`}
             onClick={() => setShowDeleteModal(true)}
-            className="flex-1 rounded-lg border border-red-200 px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="cursor-pointer flex-1 rounded-lg border border-red-200 px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500"
           >
             Delete
           </button>
@@ -120,14 +120,14 @@ export default function HabitCard({
               <button
                 data-testid="confirm-delete-button"
                 onClick={() => onDelete(habit.id)}
-                className="flex-1 rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+                className="cursor-pointer flex-1 rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
               >
                 Delete
               </button>
               <button
                 data-testid="cancel-delete-button"
                 onClick={() => setShowDeleteModal(false)}
-                className="flex-1 rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="cursor-pointer flex-1 rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               >
                 Cancel
               </button>

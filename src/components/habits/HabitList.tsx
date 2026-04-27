@@ -34,18 +34,33 @@ export default function HabitList({
   }
 
   return (
-    <ul className="space-y-3" aria-label="Your habits">
-      {habits.map((habit) => (
-        <li key={habit.id}>
-          <HabitCard
-            habit={habit}
-            today={today}
-            onUpdate={onUpdate}
-            onEdit={onEdit}
-            onDelete={onDelete}
-          />
-        </li>
-      ))}
-    </ul>
+    <>
+      <style>{`
+        @keyframes drop-in {
+          0% { opacity: 0; transform: translateY(-16px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        .habit-drop-in {
+          animation: drop-in 0.35s ease-out both;
+        }
+      `}</style>
+      <ul className="space-y-3" aria-label="Your habits">
+        {habits.map((habit, index) => (
+          <li
+            key={habit.id}
+            className="habit-drop-in"
+            style={{ animationDelay: `${index * 0.08}s` }}
+          >
+            <HabitCard
+              habit={habit}
+              today={today}
+              onUpdate={onUpdate}
+              onEdit={onEdit}
+              onDelete={onDelete}
+            />
+          </li>
+        ))}
+      </ul>
+    </>
   );
 }

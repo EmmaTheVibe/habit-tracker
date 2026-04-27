@@ -65,7 +65,7 @@ export default function HabitForm({
             setName(e.target.value);
             setNameError(null);
           }}
-          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="w-full rounded-lg border border-gray-300 p-3 text-base focus:outline-none focus:ring-2 focus:ring-indigo-500"
           placeholder="e.g. Drink Water"
           aria-describedby={nameError ? "habit-name-error" : undefined}
           aria-invalid={!!nameError}
@@ -94,7 +94,7 @@ export default function HabitForm({
           data-testid="habit-description-input"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+          className="w-full rounded-lg border border-gray-300 p-3 text-base focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
           rows={2}
           placeholder="Why does this habit matter?"
         />
@@ -112,7 +112,7 @@ export default function HabitForm({
           data-testid="habit-frequency-select"
           value={frequency}
           disabled
-          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="w-full rounded-lg border border-gray-300 p-3 text-base bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         >
           <option value="daily">Daily</option>
         </select>

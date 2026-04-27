@@ -9,6 +9,7 @@ import { logOut } from "@/lib/auth";
 import HabitList from "@/components/habits/HabitList";
 import HabitForm from "@/components/habits/HabitForm";
 import ProtectedRoute from "@/components/shared/ProtectedRoute";
+import Image from "next/image";
 
 type Modal = { type: "create" } | { type: "edit"; habit: Habit } | null;
 
@@ -91,10 +92,15 @@ function Dashboard({ session }: { session: Session }) {
   }
 
   return (
-    <div data-testid="dashboard-page" className="min-h-screen bg-gray-50">
+    <div data-testid="dashboard-page" className="min-h-screen">
       <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
         <div className="max-w-lg mx-auto px-4 h-14 flex items-center justify-between">
-          <h1 className="text-lg font-bold text-indigo-600">Habit Tracker</h1>
+          <Image
+            src="/icons/icon-192.png"
+            alt="Habit Tracker"
+            width={40}
+            height={40}
+          />
           <div className="flex items-center gap-3">
             <span className="text-xs text-gray-500 hidden sm:block truncate max-w-40">
               {session.email}
@@ -102,7 +108,7 @@ function Dashboard({ session }: { session: Session }) {
             <button
               data-testid="auth-logout-button"
               onClick={handleLogout}
-              className="text-sm font-medium text-gray-600 hover:text-red-600 focus:outline-none focus:underline"
+              className="rounded-lg bg-orange-500 px-3 py-2 text-sm font-semibold text-white hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-400 cursor-pointer"
             >
               Log out
             </button>
@@ -119,7 +125,7 @@ function Dashboard({ session }: { session: Session }) {
           <button
             data-testid="create-habit-button"
             onClick={() => setModal({ type: "create" })}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
           >
             <span aria-hidden="true">+</span> New Habit
           </button>

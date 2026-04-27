@@ -11,7 +11,7 @@ export default function SplashClient() {
   useEffect(() => {
     const timer = setTimeout(() => {
       router.replace(getSession() ? "/dashboard" : "/login");
-    }, 1000);
+    }, 1400);
     return () => clearTimeout(timer);
   }, [router]);
 
