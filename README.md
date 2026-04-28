@@ -1,26 +1,18 @@
 # Habit Tracker PWA
 
-A mobile-first Progressive Web App for tracking daily habits, built with Next.js 16, React 19, TypeScript, and Tailwind CSS. All data is persisted locally via `localStorage` — no backend required.
+**Live:** https://habit-tracker-hng.vercel.app/
+**Repo:** https://github.com/EmmaTheVibe/habit-tracker
 
----
-
-## Project Overview
-
-Users can sign up, log in, create and manage daily habits, mark habits complete, view streaks, and install the app on their device. All state is local and deterministic — no server, no database.
+A mobile-first Progressive Web App for tracking daily habits, built with Next.js 16, React 19, TypeScript, and Tailwind CSS. All data is persisted locally via `localStorage`.
 
 ---
 
 ## Setup
 
 ```bash
-# Clone the repo
-git clone <your-repo-url>
+git clone https://github.com/EmmaTheVibe/habit-tracker
 cd habit-tracker
-
-# Install dependencies
 npm install
-
-# Install Playwright browsers (for e2e tests)
 npx playwright install chromium
 ```
 
@@ -29,10 +21,7 @@ npx playwright install chromium
 ## Running the App
 
 ```bash
-# Development server
 npm run dev
-
-# Production build
 npm run build
 npm run start
 ```
@@ -42,20 +31,13 @@ npm run start
 ## Running Tests
 
 ```bash
-# Unit tests with coverage report
 npm run test:unit
-
-# Integration / component tests
 npm run test:integration
-
-# End-to-end tests (requires dev server running)
 npm run test:e2e
-
-# Run all tests
 npm run test
 ```
 
-Coverage report is written to `./coverage/` after `npm run test:unit`.
+Coverage report is generated to `./coverage/` after `npm run test:unit`. Open `coverage/lcov-report/index.html` in a browser for the full visual breakdown.
 
 ---
 
@@ -73,41 +55,43 @@ Coverage report is written to `./coverage/` after `npm run test:unit`.
 
 ---
 
-## Local Persistence Structure
+## Coverage
 
-All state lives in `localStorage` under three keys:
+```
+All files      |   90.62 |    86.66 |     100 |   94.73 |
+ auth.ts       |     100 |      100 |     100 |     100 |
+ habits.ts     |     100 |      100 |     100 |     100 |
+ slug.ts       |     100 |      100 |     100 |     100 |
+ storage.ts    |   73.91 |       75 |     100 |      85 |
+ streaks.ts    |     100 |    83.33 |     100 |     100 |
+ validators.ts |     100 |      100 |     100 |     100 |
+```
 
-| Key                     | Shape             | Purpose                      |
-| ----------------------- | ----------------- | ---------------------------- |
-| `habit-tracker-users`   | `User[]`          | All registered user accounts |
-| `habit-tracker-session` | `Session \| null` | The currently logged-in user |
-| `habit-tracker-habits`  | `Habit[]`         | All habits across all users  |
-
-**User:** `{ id, email, password, createdAt }`
-**Session:** `{ userId, email }`
-**Habit:** `{ id, userId, name, description, frequency, createdAt, completions: string[] }`
-
-Habits are filtered by `userId` on the dashboard so each user only sees their own. Completions are stored as `YYYY-MM-DD` ISO date strings.
+Full report: `coverage/lcov-report/index.html`
 
 ---
 
-## PWA Implementation
+## Local Persistence
 
-- **`public/manifest.json`** — declares `name`, `short_name`, `start_url`, `display: standalone`, `theme_color`, `background_color`, and icons for 192×192 and 512×512.
-- **`public/sw.js`** — service worker using a network-first strategy. Caches static assets (`manifest.json`, icons) on install. Falls back to cache when offline.
-- **`src/components/shared/ServiceWorkerRegistration.tsx`** — a `'use client'` component that registers the SW via `useEffect` after mount, placed in the root layout.
+All state lives in `localStorage` under three keys:
 
-### Offline Behavior
+| Key                     | Shape             | Purpose                     |
+| ----------------------- | ----------------- | --------------------------- |
+| `habit-tracker-users`   | `User[]`          | All registered accounts     |
+| `habit-tracker-session` | `Session \| null` | Currently logged-in user    |
+| `habit-tracker-habits`  | `Habit[]`         | All habits across all users |
 
-The service worker caches static assets on install. After the first load, the app shell is available offline. Dynamic data (habits, session) lives in `localStorage` which is always available client-side.
+Habits are filtered by `userId` so each user only sees their own. Completions are stored as `YYYY-MM-DD` strings.
 
-For full offline testing, use the production build:
+---
 
-```bash
-npm run build && npm run start
-```
+## PWA
 
-Then in Chrome DevTools → Application → Service Workers → tick Offline → reload.
+- **`public/manifest.json`** — name, short_name, start_url, display: standalone, theme/background color, icons
+- **`public/sw.js`** — network-first service worker, caches static assets and app shell routes at runtime for offline support
+- **`src/components/shared/ServiceWorkerRegistration.tsx`** — registers SW after mount via `useEffect`
+
+To test offline: run `npm run build && npm run start`, visit all routes once, then DevTools → Application → Service Workers → Offline → reload.
 
 ---
 
@@ -116,10 +100,10 @@ Then in Chrome DevTools → Application → Service Workers → tick Offline →
 ```
 habit-tracker/
 ├── src/
-│   ├── app/                          # Next.js App Router pages (server components)
+│   ├── app/                          # Next.js App Router (server components)
 │   │   ├── globals.css
 │   │   ├── layout.tsx
-│   │   ├── page.tsx                  # Splash + redirect
+│   │   ├── page.tsx
 │   │   ├── login/page.tsx
 │   │   ├── signup/page.tsx
 │   │   └── dashboard/page.tsx
@@ -130,7 +114,9 @@ habit-tracker/
 │   │   ├── habits/
 │   │   │   ├── HabitCard.tsx
 │   │   │   ├── HabitForm.tsx
-│   │   │   └── HabitList.tsx
+│   │   │   ├── HabitList.tsx
+│   │   │   ├── EmptyState.tsx
+│   │   │   └── DeleteHabitModal.tsx
 │   │   ├── dashboard/
 │   │   │   ├── DashboardClient.tsx
 │   │   │   └── DashboardWrapper.tsx
@@ -138,6 +124,7 @@ habit-tracker/
 │   │       ├── SplashScreen.tsx
 │   │       ├── SplashClient.tsx
 │   │       ├── ProtectedRoute.tsx
+│   │       ├── HillsBackground.tsx
 │   │       └── ServiceWorkerRegistration.tsx
 │   ├── lib/
 │   │   ├── auth.ts
@@ -159,15 +146,8 @@ habit-tracker/
 ├── tests/
 │   ├── setup.ts
 │   ├── unit/
-│   │   ├── slug.test.ts
-│   │   ├── validators.test.ts
-│   │   ├── streaks.test.ts
-│   │   └── habits.test.ts
 │   ├── integration/
-│   │   ├── auth-flow.test.tsx
-│   │   └── habit-form.test.tsx
 │   └── e2e/
-│       └── app.spec.ts
 ├── vitest.config.js
 ├── vitest.integration.config.js
 └── playwright.config.js
@@ -175,31 +155,29 @@ habit-tracker/
 
 ---
 
-## Implementation Notes
+## TRD Mapping
 
-### How This Maps to the TRD
-
-| TRD Section             | Implementation                                                                         |
-| ----------------------- | -------------------------------------------------------------------------------------- |
-| §4 Route Contract       | `src/app/page.tsx`, `login/page.tsx`, `signup/page.tsx`, `dashboard/page.tsx`          |
-| §5 Persistence Contract | `src/lib/storage.ts` — exact key names via `src/lib/constants.ts`                      |
-| §6 Folder Structure     | Matches spec exactly; additional files added per "you may add more files" clause       |
-| §8 Type Contracts       | `src/types/auth.ts`, `src/types/habit.ts` — exact exported shapes                      |
-| §9 Utility Contracts    | `src/lib/slug.ts`, `validators.ts`, `streaks.ts`, `habits.ts` — exact signatures       |
-| §10 UI Contract         | All `data-testid` attributes on correct elements                                       |
-| §11 Auth Behavior       | Duplicate email → "User already exists"; bad credentials → "Invalid email or password" |
-| §12 Habit Behavior      | Create/edit/delete/toggle all implemented with immutability and confirmation           |
-| §13 PWA Contract        | `manifest.json`, `sw.js`, icons, SW registered in layout                               |
-| §16 Test Suite          | All required describe blocks and exact test titles present                             |
-| §17 Coverage            | `src/lib/**` covered at ≥80% lines                                                     |
-| §18 Package Scripts     | All required script names present and working                                          |
+| Section             | Implementation                                                      |
+| ------------------- | ------------------------------------------------------------------- |
+| §4 Routes           | `src/app/` — page.tsx, login, signup, dashboard                     |
+| §5 Persistence      | `src/lib/storage.ts` — exact key names via `constants.ts`           |
+| §6 Folder Structure | Matches spec; extra files added per "you may add more files" clause |
+| §8 Types            | `src/types/auth.ts`, `src/types/habit.ts`                           |
+| §9 Utilities        | `src/lib/` — exact exported function signatures                     |
+| §10 UI Contract     | All `data-testid` attributes on correct elements                    |
+| §11 Auth Behavior   | "User already exists" / "Invalid email or password"                 |
+| §12 Habit Behavior  | Full CRUD with immutability, delete confirmation modal              |
+| §13 PWA             | manifest.json, sw.js, icons, SW registration                        |
+| §16 Tests           | All required describe blocks and exact test titles                  |
+| §17 Coverage        | src/lib/\*\* ≥80% lines                                             |
+| §18 Scripts         | dev, build, start, test:unit, test:integration, test:e2e, test      |
 
 ---
 
-## Trade-offs and Limitations
+## Trade-offs
 
-- **No password hashing** — passwords stored in plain text in `localStorage`. Front-end only per spec. Do not use in production.
-- **localStorage only** — data does not sync across devices or browsers. Clearing browser storage removes all accounts and habits.
-- **Frequency is always `daily`** — only daily frequency is required for Stage 3. The frequency select is rendered but disabled.
-- **Offline in dev** — Turbopack dev server does not support service worker caching reliably. Test offline behavior against the production build.
-- **SSR + localStorage** — dashboard uses `next/dynamic` with `ssr: false` to avoid hydration mismatches when reading localStorage on the client.
+- **No password hashing** — plain text in localStorage, front-end only per spec
+- **localStorage only** — no cross-device sync, clearing storage removes all data
+- **Frequency always daily** — spec requires daily only, select is rendered but disabled
+- **SSR + localStorage** — dashboard uses `next/dynamic` with `ssr: false` to avoid hydration mismatches
+- **Offline in dev** — SW caching only works reliably on production build

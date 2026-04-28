@@ -96,8 +96,15 @@ export default function HabitForm({
           onChange={(e) => setDescription(e.target.value)}
           className="w-full rounded-lg border border-gray-300 p-3 text-base focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
           rows={2}
-          placeholder="Why does this habit matter?"
+          placeholder="More about this habit"
+          maxLength={200}
         />
+        <p
+          className="mt-1 text-xs text-right"
+          style={{ color: description.length > 180 ? "#ef4444" : "#9896b8" }}
+        >
+          {description.length}/200
+        </p>
       </div>
 
       <div>
@@ -122,14 +129,14 @@ export default function HabitForm({
         <button
           type="submit"
           data-testid="habit-save-button"
-          className="flex-1 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="cursor-pointer flex-1 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         >
           {initial?.id ? "Save Changes" : "Create Habit"}
         </button>
         <button
           type="button"
           onClick={onCancel}
-          className="flex-1 rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="cursor-pointer flex-1 rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         >
           Cancel
         </button>

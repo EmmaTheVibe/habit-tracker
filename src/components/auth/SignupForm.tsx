@@ -55,6 +55,7 @@ export default function SignupForm() {
           onChange={(e) => setEmail(e.target.value)}
           className="w-full rounded-lg border border-gray-300 p-3 text-base focus:outline-none focus:ring-2 focus:ring-indigo-500"
           placeholder="you@example.com"
+          maxLength={100}
         />
       </div>
 
